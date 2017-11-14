@@ -4,8 +4,6 @@ Data analysis project of US military aid to Israel and casualties in the Israeli
 
 Analyzes deaths caused by the Israeli-Palestinian conflict between 1989-2016 and the amount of military aid the US has given to Israel from 1946-2015. 
 
-View html files for result summaries, and R scripts or Rmd files for all code used. 
-
 <small>Data Sources: 
 
 Sundberg, Ralph, and Erik Melander, 2013, “Introducing the UCDP Georeferenced Event Dataset”, Journal of Peace Research, vol.50, no.4, 523-532
