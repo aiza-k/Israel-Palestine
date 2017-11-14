@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r}
 #load data
 library(readr)
-TEaMA <- read_csv("~/data/ConflictAnalysis/datasets/TotalEconomicandMilitaryAssistance19462015.csv")
+TEaMA <- read_csv("~/data/Israel_Palestine_deaths_aid_analysis/datasets/TotalEconomicandMilitaryAssistance19462015.csv")
 MA <- TEaMA[ ! TEaMA$`Assistance Category` %in% 'Economic', ]
 Israel <- MA[ MA$Country %in% 'Israel',]
 ```
