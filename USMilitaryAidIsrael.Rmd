@@ -8,7 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-```{r}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
 #load data
 library(readr)
 TEaMA <- read_csv("~/data/Israel_Palestine_deaths_aid_analysis/datasets/TotalEconomicandMilitaryAssistance19462015.csv")
@@ -16,9 +16,9 @@ MA <- TEaMA[ ! TEaMA$`Assistance Category` %in% 'Economic', ]
 Israel <- MA[ MA$Country %in% 'Israel',]
 ```
 
-
+<br>
 Plot of Constant Dollar Military Aid to Israel, from 1946 - 2015. There is general upward trend on opposite years. For every one year increase, there is a predicted 2.602e+06 dollar increase in military aid. 
-```{r}
+```{r, echo=FALSE}
 plot(ConstantDollars ~ `Fiscal Year`, Israel)
 model <- lm(ConstantDollars ~ `Fiscal Year`, Israel)
 abline(model, col = 'blue')
@@ -26,7 +26,7 @@ model
 ```
 
 
-```{r}
+```{r, echo=FALSE}
 
 #Plot of Historical Dollar Military Aid to Israel, from 1946 - 2015. There is general upward trend on opposite years. For every one year increase, there is a predicted 2.183e+07 dollar increase in military aid. 
 
@@ -36,9 +36,9 @@ model
 #model2
 ```
 
-
+<br>
 Israel received aid from different funding accounts. Differentiating between aid from the Foregin Military Financing Program and the Excess Defense Articles, might account for what seems to be differences on alternate years. Fitting a linear model to the data, FMFP has greater slope, EDA is relatively constant. A 95% confidence intervals show that changes in EDA are not significant. FMFP might be.
-```{r}
+```{r, echo=FALSE}
 Israel_FMFP <- Israel[ Israel$`Funding Account Name` %in% 'Foreign Military Financing Program',]
 plot(ConstantDollars ~ `Fiscal Year`, Israel_FMFP)
 model3 <- lm(ConstantDollars ~ `Fiscal Year`, Israel_FMFP)
