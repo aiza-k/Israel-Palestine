@@ -38,6 +38,7 @@ model
 
 <br>
 Israel received aid from different funding accounts. Differentiating between aid from the Foregin Military Financing Program and the Excess Defense Articles, might account for what seems to be differences on alternate years. Fitting a linear model to the data, FMFP has greater slope, EDA is relatively constant. A 95% confidence intervals show that changes in EDA are not significant. FMFP might be.
+
 ```{r, echo=FALSE}
 Israel_FMFP <- Israel[ Israel$`Funding Account Name` %in% 'Foreign Military Financing Program',]
 plot(ConstantDollars ~ `Fiscal Year`, Israel_FMFP)
