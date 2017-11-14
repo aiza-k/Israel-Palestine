@@ -1,6 +1,9 @@
 ---
 title: "Palestinian-Israeli Conflict Deaths"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
