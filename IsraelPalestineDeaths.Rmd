@@ -1,0 +1,56 @@
+---
+title: "Palestinian-Israeli Conflict Deaths"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+#load data
+library(readr)
+GED <- read_csv("~/data/ConflictAnalysis/datasets/ged171.csv")
+```
+
+<b> Casualties </b>
+
+From 1989 to 2016, the best estimates for all deaths is 6323.
+```{r}
+IsPaliConflict <- GED[ GED$conflict_name %in% 'Israel:Palestine',]
+sum(IsPaliConflict$best)
+sum(IsPaliConflict$deaths_civilians)
+```
+
+
+Civilian Deaths:
+```{r}
+civdeaths<-aggregate(IsPaliConflict$deaths_civilians, by=list(Category=IsPaliConflict$year), FUN=sum)
+colnames(civdeaths)<-c("Year", "Sum of Civilian Deaths")
+civdeathsfinal <- civdeaths[order(civdeaths$Year),] 
+sum(civdeaths$'Sum of Civilian Deaths')
+  
+```
+
+Best estimate of all deaths:
+```{r}
+bestdeaths<-aggregate(IsPaliConflict$best, by=list(Category=IsPaliConflict$year), FUN=sum)
+colnames(bestdeaths)<-c("Year", "Sum of Best Estimate of Deaths")
+bestdeathsfinal <- bestdeaths[order(bestdeaths$Year),] 
+sum(bestdeaths$'Sum of Best Estimate of Deaths')
+```
+
+
+```{r}
+#Check specific years of flare ups in conflict, check USmil aid and deaths in and around those years
+#2000-2005 second intifada
+#check approx 2015?
+```
+
+
+<small>Sources: 
+Sundberg, Ralph, and Erik Melander, 2013, “Introducing the UCDP Georeferenced Event Dataset”, Journal of Peace Research, vol.50, no.4, 523-532
+Croicu, Mihai and Ralph Sundberg, 2017, “UCDP GED Codebook version 17.1”, Department of Peace and Conflict Research, Uppsala University
+
+UCDP data:http://ucdp.uu.se/downloads/#__utma=1.1048232624.1510607641.1510607641.1510613552.2&__utmb=1.2.10.1510613552&__utmc=1&__utmx=-&__utmz=1.1510607641.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)&__utmv=-&__utmk=15611958 </small>
