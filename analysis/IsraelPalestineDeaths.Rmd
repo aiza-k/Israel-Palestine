@@ -1,15 +1,12 @@
 ---
-title: "Palestinian-Israeli Conflict Deaths"
+title: "Palestinian-Israeli Conflict Casualties From 1989 to 2016"
 output:
-  pdf_document: default
   html_document: default
-  word_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 #load data
@@ -17,22 +14,54 @@ library(readr)
 GED <- read_csv("~/data/Israel_Palestine_deaths_aid_analysis/datasets/ged171.csv")
 ```
 
-<b> Casualties </b><br>
-
-From 1989 to 2016, the best estimates for all deaths is 6323.
 ```{r, echo=FALSE}
-IsPaliConflict <- GED[ GED$conflict_name %in% 'Israel:Palestine',]
-sum(IsPaliConflict$best)
+#create subset of data for just Israeli-Palestinian conflict
+IsPaliConflict <- GED[GED$conflict_name %in% 'Israel:Palestine',]
+
+#create new dataframe for year and deaths, aggregate by year
+deaths<-aggregate(IsPaliConflict[36:40], by=list(Category=IsPaliConflict$year), FUN=sum)
+```
+
+<br><b>Best Estimate of All Deaths</b> <br>
+The "best" number of deaths is the best estimate of fatalities in a given year. Given the data, overal the mean number of deaths a year is 225.82, with a maximum of 1679 deaths in 2014 and a minimum of 2 deaths in 1997.There are spikes in the number of deaths in three approximate time ranges - between 2000-2005, between 2008-2009, and in 2014. The Second Intifada took place in 2000-2005, the 3-week Gaza War occured in late 2008 and early 2009, and Israel launched Operation Protective Edge in 2014. Asides from these flare ups, it is hard to notice a general upwards or downwards trends in overall death rates during this time frame. <br><br>
+```{r, echo=FALSE}
+summary(deaths$best)
+bets <- ts(deaths$best, start = 1989, end = 2016, frequency = 1)
+plot(bets, col= "red", main = "Best Estimate of All Deaths", ylab = "Deaths")
 ```
 
 
-Civilian Deaths:
+<br><b>Civilian Deaths</b> <br>
+UCDP data does not differentiate between civilians in Israel or occupied territories. Therefore it is possible not all civilian deaths are Palestinian casualties. Given the data, overal the mean number of civilian deaths a year is 38.96, with a maximum of 304 deaths in 2014 and some years with no civilian deaths.The spikes in civilian death tolls can also be attributed to the Second Intifada, The Gaza War, and Operation Protective Edge. Outside these spikes, again it is hard to establish a general trend. However, given the mean number of deaths, we will see that on average more civilians sustain casualities in a given year than the Government of Israel. <br><br>
 ```{r, echo=FALSE}
-civdeaths<-aggregate(IsPaliConflict$deaths_civilians, by=list(Category=IsPaliConflict$year), FUN=sum)
-colnames(civdeaths)<-c("Year", "Sum of Civilian Deaths")
-civdeathsfinal <- civdeaths[order(civdeaths$Year),] 
-sum(civdeaths$'Sum of Civilian Deaths')
+summary(deaths$deaths_civilians)
+cts <- ts(deaths$deaths_civilians, start = 1989, end = 2016, frequency = 1)
+plot(cts, col= "red", main = "Civilian Deaths", ylab = "Civilian Deaths")
 ```
+
+
+<br><b>Government of Israel</b><br>
+THe Goverment of Israel is described as side A in the UCDP dataset. Given the data, overal the mean number of deaths to side A is 14.32, with a maximum of 394 deaths in 2014 and some years with no deaths at all. The spikes in side A's death tolls are slightly different. Death rates in 2000-2005 and 2014 can still be attributed to the Second Intifada and Operation Protective Edge.However, there is little to no affect to the Goverment of Israel's casualties due to the the Gaza War. Outside these spikes, again it is hard to establish a general trend. In a given year, on average more civilians (mean 38.96) sustain casualitiesthan the Government of Israel (mean 14.32). <br><br>
+```{r, echo=FALSE}
+table(IsPaliConflict$side_a)
+summary(deaths$deaths_a)
+ats <- ts(deaths$deaths_a, start = 1989, end = 2016, frequency = 1)
+plot(ats, col= "red", main = "Goverment of Israel Deaths", ylab = "Deaths")
+```
+
+
+
+<br><b>Groups Opposing Israel</b> <br>
+Various groups are listed as opposing Israel in a variety of incidents in the UCDP dataset. However, Hamas appears to most often be side B in any event. The overall mean number of deaths to side B (whichever group it is) is 95.43 in a given year, with a max of 407 in 2008 and a minimum of 1 death in 1997. The spikes in side B's death tolls are different than for other groups. Death rates in 2000-2005 and 2014 can still be attributed to the Second Intifada and Operation Protective Edge. However, after the Second Intifada death rates remain relatively high until the Gaza War. From this we can see the Gaza War hurt civilians and opposition groups much more strongly than the Government of Israel. 
+
+Outside these spikes, again it is hard to establish a general trend. <br><br>
+```{r, echo=FALSE}
+table(IsPaliConflict$side_b)
+summary(deaths$deaths_b)
+bts <- ts(deaths$deaths_b, start = 1989, end = 2016, frequency = 1)
+plot(bts, col= "red", main = "Deaths Among Groups Opposing Israel", ylab = "Deaths")
+```
+ 
 
 
 

@@ -37,3 +37,6 @@ abline(model4, col = 'blue')
 model4
 #confidence interval
 confint(model4, level = 0.95)
+
+
+#check USmil aid and deaths in and around 2000-2005, 2008, and 2014
