@@ -17,7 +17,15 @@ Israel <- MA[ MA$Country %in% 'Israel',]
 ```
 
 <br>
+Publication Row:  Name of the row in the Greenbook publication
 
+Funding Agency:  U.S. Government Agency managing the Funding Account
+
+Funding Account Name:  U.S. Government Funding Account
+
+Definition of Historical Dollars: Value of gross obligations
+
+Definition of Constant Dollars: Value of gross obligations in constant 2014 $US. The official deflator for the U.S. Overseas Loans and Grantsdata is the "GDP Chain Price Index" deflator, produced annually by the Bureau of Economic Analysis (BEA), Department of Commerce from the National Income and Product Accounts data.
 
 
 

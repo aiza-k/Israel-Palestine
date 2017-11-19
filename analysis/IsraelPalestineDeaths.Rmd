@@ -32,7 +32,7 @@ plot(bets, col= "red", main = "Best Estimate of All Deaths", ylab = "Deaths")
 
 
 <br><b>Civilian Deaths</b> <br>
-UCDP data does not differentiate between civilians in Israel or occupied territories. Therefore it is possible not all civilian deaths are Palestinian casualties. Given the data, overal the mean number of civilian deaths a year is 38.96, with a maximum of 304 deaths in 2014 and some years with no civilian deaths.The spikes in civilian death tolls can also be attributed to the Second Intifada, The Gaza War, and Operation Protective Edge. Outside these spikes, again it is hard to establish a general trend. However, given the mean number of deaths, we will see that on average more civilians sustain casualities in a given year than the Government of Israel. <br><br>
+UCDP data does not differentiate between civilians in Israel or occupied territories. Therefore it is possible not all civilian deaths are Palestinian casualties. Given the data, overal the mean number of civilian deaths a year is 38.96, with a maximum of 304 deaths in 2014 and some years with no civilian deaths.The spikes in civilian death tolls can also be attributed to the Second Intifada, The Gaza War, and Operation Protective Edge. Outside these spikes, again it is hard to establish a change in trend. However, given the mean number of deaths, we will see that on average more civilians sustain casualities in a given year than the Government of Israel. <br><br>
 ```{r, echo=FALSE}
 summary(deaths$deaths_civilians)
 cts <- ts(deaths$deaths_civilians, start = 1989, end = 2016, frequency = 1)
@@ -41,7 +41,7 @@ plot(cts, col= "red", main = "Civilian Deaths", ylab = "Civilian Deaths")
 
 
 <br><b>Government of Israel</b><br>
-THe Goverment of Israel is described as side A in the UCDP dataset. Given the data, overal the mean number of deaths to side A is 14.32, with a maximum of 394 deaths in 2014 and some years with no deaths at all. The spikes in side A's death tolls are slightly different. Death rates in 2000-2005 and 2014 can still be attributed to the Second Intifada and Operation Protective Edge.However, there is little to no affect to the Goverment of Israel's casualties due to the the Gaza War. Outside these spikes, again it is hard to establish a general trend. In a given year, on average more civilians (mean 38.96) sustain casualitiesthan the Government of Israel (mean 14.32). <br><br>
+THe Goverment of Israel is described as side A in the UCDP dataset. Given the data, overal the mean number of deaths to side A is 14.32, with a maximum of 394 deaths in 2014 and some years with no deaths at all. The spikes in side A's death tolls are slightly different. Death rates in 2000-2005 and 2014 can still be attributed to the Second Intifada and Operation Protective Edge.However, there is little to no affect to the Goverment of Israel's casualties due to the the Gaza War. Outside these spikes, again it is hard to say deaths are changing in any kind of trend. In a given year, on average more civilians (mean 38.96) sustain casualitiesthan the Government of Israel (mean 14.32). <br><br>
 ```{r, echo=FALSE}
 table(IsPaliConflict$side_a)
 summary(deaths$deaths_a)
