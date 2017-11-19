@@ -8,35 +8,28 @@ MA <- TEaMA[ ! TEaMA$`Assistance Category` %in% 'Economic', ]
 #create dataframe for only aid given to Israel
 Israel <- MA[ MA$Country %in% 'Israel',]
 
-#Miliary aid in Constant Dollars vs Fiscal Year, and linear model
-plot(ConstantDollars ~ `Fiscal Year`, Israel)
-model <- lm(ConstantDollars ~ `Fiscal Year`, Israel)
+table(Israel$Region)
+table(Israel$Country)
+#country and region are obviously the same for all entries
+#some differences in Publication Row, Funding Agency and Funding Account Names
+table(Israel$`Publication Row`)
+table(Israel$`Funding Agency`)
+table(Israel$`Funding Account Name`)
+
+#aggregate aid by Year
+Israel_AidByYear<-aggregate(Israel[8:9], by=list('Fiscal Year'=Israel$'Fiscal Year'), FUN=sum)
+
+#Miliary aid in Constant Dollars vs Fiscal Year
+plot(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear)
+model <- lm(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear)
 abline(model, col = 'blue')
 model
 
-#Miliary aid in Historical Dollars vs Fiscal Year, and linear model
-plot(HistoricalDollars ~ `Fiscal Year`, Israel)
-model2 <- lm(HistoricalDollars ~ `Fiscal Year`, Israel)
+#Miliary aid in Historical Dollars vs Fiscal Year
+plot(HistoricalDollars ~ `Fiscal Year`, Israel_AidByYear)
+model2 <- lm(HistoricalDollars ~ `Fiscal Year`, Israel_AidByYear)
 abline(model2, col = 'blue')
 model2
-
-#Military aid from Funding Account - Foreign Military Financing Program 
-Israel_FMFP <- Israel[ Israel$`Funding Account Name` %in% 'Foreign Military Financing Program',]
-plot(ConstantDollars ~ `Fiscal Year`, Israel_FMFP)
-model3 <- lm(ConstantDollars ~ `Fiscal Year`, Israel_FMFP)
-abline(model3, col = 'blue')
-model3
-#confidence interval
-confint(model3, level = 0.95)
-
-#Military aid from Funding Account - Excess Defense Articles 
-Israel_EDA <- Israel[ Israel$`Funding Account Name` %in% 'Excess Defense Articles',]
-plot(ConstantDollars ~ `Fiscal Year`, Israel_EDA)
-model4 <- lm(ConstantDollars ~ `Fiscal Year`, Israel_EDA)
-abline(model4, col = 'blue')
-model4
-#confidence interval
-confint(model4, level = 0.95)
 
 
 #check USmil aid and deaths in and around 2000-2005, 2008, and 2014

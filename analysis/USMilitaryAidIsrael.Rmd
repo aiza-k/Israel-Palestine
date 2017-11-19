@@ -17,42 +17,8 @@ Israel <- MA[ MA$Country %in% 'Israel',]
 ```
 
 <br>
-Plot of Constant Dollar Military Aid to Israel, from 1946 - 2015. There is general upward trend on opposite years. For every one year increase, there is a predicted 2.602e+06 dollar increase in military aid. 
-```{r, echo=FALSE}
-plot(ConstantDollars ~ `Fiscal Year`, Israel)
-model <- lm(ConstantDollars ~ `Fiscal Year`, Israel)
-abline(model, col = 'blue')
-model
-```
 
 
-```{r, echo=FALSE}
 
-#Plot of Historical Dollar Military Aid to Israel, from 1946 - 2015. There is general upward trend on opposite years. For every one year increase, there is a predicted 2.183e+07 dollar increase in military aid. 
-
-#plot(HistoricalDollars ~ `Fiscal Year`, Israel)
-#model2 <- lm(HistoricalDollars ~ `Fiscal Year`, Israel)
-#abline(model2, col = 'blue')
-#model2
-```
-
-<br>
-Israel received aid from different funding accounts. Differentiating between aid from the Foregin Military Financing Program and the Excess Defense Articles, might account for what seems to be differences on alternate years. Fitting a linear model to the data, FMFP has greater slope, EDA is relatively constant. A 95% confidence intervals show that changes in EDA are not significant. FMFP might be.
-
-```{r, echo=FALSE}
-Israel_FMFP <- Israel[ Israel$`Funding Account Name` %in% 'Foreign Military Financing Program',]
-plot(ConstantDollars ~ `Fiscal Year`, Israel_FMFP)
-model3 <- lm(ConstantDollars ~ `Fiscal Year`, Israel_FMFP)
-abline(model3, col = 'blue')
-model3
-confint(model3, level = 0.95)
-
-Israel_EDA <- Israel[ Israel$`Funding Account Name` %in% 'Excess Defense Articles',]
-plot(ConstantDollars ~ `Fiscal Year`, Israel_EDA)
-model4 <- lm(ConstantDollars ~ `Fiscal Year`, Israel_EDA)
-abline(model4, col = 'blue')
-model4
-confint(model4, level = 0.95)
-```
 
 <small>Sources: US Overseas Loans & Grants [Greenbook], https://explorer.usaid.gov/reports.html</small>
