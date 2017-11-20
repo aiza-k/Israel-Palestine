@@ -19,6 +19,8 @@ table(Israel$`Funding Account Name`)
 #aggregate aid by Year
 Israel_AidByYear<-aggregate(Israel[8:9], by=list('Fiscal Year'=Israel$'Fiscal Year'), FUN=sum)
 
+
+#-----------------------------------------------------
 #Miliary aid in Constant Dollars vs Fiscal Year
 
 #Min aid in 1961 of 6.227e+03, max in 1979 of 1.099e+10, mean of 2.635e+09.
@@ -32,12 +34,35 @@ plot(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear)
 model <- lm(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear)
 abline(model, col = 'blue')
 model
+
 #outliers:
 #there are outliers in the years 1974, 1976, and 1979
-Outliers_CD <- Israel_AidByYear[Israel_AidByYear$ConstantDollars > 4e+09,] 
-View(Outliers_CD)
+Outliers <- Israel_AidByYear[Israel_AidByYear$ConstantDollars > 4e+09,] 
+View(Outliers)
 
+Israel_AidByYear_Outliers <- Israel_AidByYear
+#1974
+Israel_AidByYear_Outliers[15,2] = "NA"
+Israel_AidByYear_Outliers[15,3] = "NA"
+#1976
+Israel_AidByYear_Outliers[17,3] = "NA"
+#1979
+Israel_AidByYear_Outliers[20,2] = "NA"
+Israel_AidByYear_Outliers[20,3] = "NA"
 
+Israel_AidByYear_Outliers <- na.omit(Israel_AidByYear_Outliers)
+# max in 2003 at 3929072748, min in 1961 at 6227
+mean(Israel_AidByYear_Outliers$ConstantDollars)
+which.max(Israel_AidByYear_Outliers$ConstantDollars)
+which.min(Israel_AidByYear_Outliers$ConstantDollars)
+#plot might be exponential? kinda like an S-curve. If so, moderately strong
+plot(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear_Outliers)
+#
+model <- lm(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear_Outliers)
+abline(model, col = 'blue')
+model
+
+#-----------------------------------------------------
 #Miliary aid in Historical Dollars vs Fiscal Year
 
 #Min aid in 1961 of 1.000e+03, max in 1979 of 4.000e+09, mean of 1.574e+09
@@ -53,6 +78,9 @@ abline(model2, col = 'blue')
 model2
 #outliers:
 #there are outliers in the years 1974 and 1979
+
+#Summary + Model after removing values for outliers
+
 
 #Try converting outliers to missing, then find max, min, median and model
 #check USmil aid and deaths in and around 2000-2005, 2008, and 2014

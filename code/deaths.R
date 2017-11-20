@@ -19,6 +19,7 @@ sum(deaths$deaths_civilians)
 sum(deaths$deaths_a)
 sum(deaths$deaths_b)
 
+#-----------------------------------------------------
 #best estimates of death by year
 #mean number of deaths = 225.82, max is 1679 in 2014. min in 1997.
 summary(deaths$best)
@@ -35,6 +36,7 @@ model <- lm(best ~ year, deaths)
 abline(model, col = "blue")
 model
 
+#-----------------------------------------------------
 #civilian deaths by year
 #mean number of deaths = 38.96, max is 307 in 2014. some years with no civilian deaths
 summary(deaths$deaths_civilians)
@@ -43,7 +45,7 @@ plot(deaths_civilians ~ Year, deaths, col="red", main = "Civilian Deaths by Year
 cts <- ts(deaths$deaths_civilians, start = 1989, end = 2016, frequency = 1)
 plot(cts, col= "red", main = "Civilian Deaths", ylab = "Civilian Deaths")
 
-
+#-----------------------------------------------------
 #Side A deaths (government of Israel)
 table(IsPaliConflict$side_a)
 #median number of deaths = 14.32, max is 94 in second intifada. 
@@ -53,6 +55,7 @@ plot(deaths_a ~ Year, deaths, col="red", main = "Government of Israel Deaths by 
 ats <- ts(deaths$deaths_a, start = 1989, end = 2016, frequency = 1)
 plot(ats, col= "red", main = "Goverment of Israel Deaths", ylab = "Deaths")
 
+#-----------------------------------------------------
 #Side B deaths - include variety of actors however most are Hamas
 table(IsPaliConflict$side_b)
 #median number of deaths = 95.43, max is 407 in 2008.
