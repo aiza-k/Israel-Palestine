@@ -68,3 +68,5 @@ plot(bts, col= "red", main = "Deaths Among Groups Opposing Israel", ylab = "Deat
 
 
 #thanks to F.Begum for help with the code!
+
+#work more with time series...?
