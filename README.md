@@ -1,8 +1,8 @@
 # Palestinian - Israeli conflict deaths and US military aid
 
-Data analysis project of US military aid to Israel and casualties in the Israeli-Palestinian conflict on a yearly basis. 
+Ongoing data analysis project of US military aid given to Israel and casualties in the Israeli-Palestinian conflict on a yearly basis. 
 
-Analyzes deaths caused by the Israeli-Palestinian conflict between 1989-2016 and the amount of military aid the US has given to Israel from 1946-2015. 
+Analyzes deaths caused by the Israeli-Palestinian conflict between 1989-2016 and the amount of military aid the US has given to Israel from 1959-2015. 
 
 <small>Data Sources: 
 
