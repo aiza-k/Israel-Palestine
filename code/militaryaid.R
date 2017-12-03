@@ -28,7 +28,7 @@ summary(Israel_AidByYear$ConstantDollars)
 which.max(Israel_AidByYear$ConstantDollars)
 which.min(Israel_AidByYear$ConstantDollars)
 #plot is moderately strong and positive with some outliers
-plot(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear)
+plot(ConstantDollars ~ `Fiscal Year`, main = "Military Aid Given to Israel in Constant 2014 US Dollars, 1959-2015", Israel_AidByYear)
 #The slope is 3.941e+07. 
 #This implies that for every 1 year increase in time, the predicted total military aid to Israel willincreases by 3.941e+07 dollars.
 model <- lm(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear)
@@ -55,7 +55,7 @@ Israel_AidByYear_Outliers <-na.omit(Israel_AidByYear_Outliers)
 which.max(Israel_AidByYear_Outliers$ConstantDollars)
 which.min(Israel_AidByYear_Outliers$ConstantDollars)
 #plot might be exponential? kinda like an S-curve. If so, moderately strong
-plot(ConstantDollars ~ `Fiscal Year`, na.omit(Israel_AidByYear_Outliers))
+plot(ConstantDollars ~ `Fiscal Year`, main = "Military Aid Given to Israel in Constant 2014 US Dollars, 1959-2015", na.omit(Israel_AidByYear_Outliers))
 #The slope is 3.941e+07. 
 #This implies that for every 1 year increase in time, the predicted total military aid to Israel willincreases by 3.941e+07 dollars.
 model2 <- lm(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear_Outliers, na.action=na.omit)
