@@ -1,22 +1,83 @@
 ---
-title: "US Military Aid to Israel"
-output: html_document
+title: "US Military Aid to Israel from 1959 to 2015"
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 #load data
 library(readr)
 TEaMA <- read_csv("~/data/Israel_Palestine_deaths_aid_analysis/datasets/TotalEconomicandMilitaryAssistance19462015.csv")
+
+#Create dataframe for only military aid
 MA <- TEaMA[ ! TEaMA$`Assistance Category` %in% 'Economic', ]
+
+#create dataframe for only aid given to Israel
 Israel <- MA[ MA$Country %in% 'Israel',]
+
+#aggregate aid by Year
+Israel_AidByYear<-aggregate(Israel[8:9], by=list('Fiscal Year'=Israel$'Fiscal Year'), FUN=sum)
+
+```
+
+<br><b>Military Aid in Constant Dollars by Fiscal Year</b> <br>
+
+The US Loans and Overseas Greenbook (from USAID) defines Constant Dollars as the "Value of gross obligations in constant 2014 US Dollars". Rather than analyzing the provided Historical Dollar values, we focus on Constant Dollars for consistency when looking at numbers across years. However, the analysis of the data for Historical Dollars reveals similar trends and the same years for maximum and mimimum aid amounts. 
+
+The minimum amount of military aid (at a constant dollar rate in 2014 dollars) given to Israel by the US was \$6227 in 1961. The maximum amount received was \$10,099,000,000 in 1979. The mean amount of military aid given to Israel in the years 1959 - 2015 was \$2,635,000,000.
+
+```{r, echo=FALSE}
+summary(Israel_AidByYear$ConstantDollars)
+which.max(Israel_AidByYear$ConstantDollars)
+which.min(Israel_AidByYear$ConstantDollars)
 ```
 
 <br>
+
+The plot of Constant Dollars by Fiscal Year is positive, moderately strong and has some large outliers. Calculating the IQR allows us to find the outliers. which occur in 1974, 1976, and 1979. Applying a linear model to this data yields a slope of 39,410,000. This implies that for every 1 year increase in time, the predicted total military aid given to Israel by the US will increase by $39,410,000.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+plot(ConstantDollars ~ `Fiscal Year`, main = "Military Aid Given to Israel in Constant 2014 US Dollars, 1959-2015",Israel_AidByYear)
+model <- lm(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear)
+abline(model, col = 'blue')
+model
+```
+
+<br>
+
+If we remove the outlers, we see that the maximum amount of aid given has changed now to \$3,929,072,748 in 2003, while the minimum remains the same. A plot of the data reveals a curve that roughly takes an S-shape. The plot is weaker, but it is still positive, suggesting that Israel receives greater amounts of military aid as time progresses.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+Outliers <- Israel_AidByYear[Israel_AidByYear$ConstantDollars > 4e+09,] 
+View(Outliers)
+
+Israel_AidByYear_Outliers <- Israel_AidByYear
+#1974
+Israel_AidByYear_Outliers[15,2] = "NA"
+Israel_AidByYear_Outliers[15,3] = "NA"
+#1976
+Israel_AidByYear_Outliers[17,3] = "NA"
+#1979
+Israel_AidByYear_Outliers[20,2] = "NA"
+Israel_AidByYear_Outliers[20,3] = "NA"
+
+Israel_AidByYear_Outliers <-na.omit(Israel_AidByYear_Outliers)
+which.max(Israel_AidByYear_Outliers$ConstantDollars)
+which.min(Israel_AidByYear_Outliers$ConstantDollars)
+plot(ConstantDollars ~ `Fiscal Year`, main = "Military Aid Given to Israel in Constant 2014 US Dollars, 1959-2015", na.omit(Israel_AidByYear_Outliers))
+```
+
+
+<small>Sources: US Overseas Loans & Grants [Greenbook], https://explorer.usaid.gov/reports.html
+
+<br>
+<br>
+Definiton of variables in data set:<br>
 Publication Row:  Name of the row in the Greenbook publication
 
 Funding Agency:  U.S. Government Agency managing the Funding Account
@@ -25,8 +86,4 @@ Funding Account Name:  U.S. Government Funding Account
 
 Definition of Historical Dollars: Value of gross obligations
 
-Definition of Constant Dollars: Value of gross obligations in constant 2014 $US. The official deflator for the U.S. Overseas Loans and Grantsdata is the "GDP Chain Price Index" deflator, produced annually by the Bureau of Economic Analysis (BEA), Department of Commerce from the National Income and Product Accounts data.
-
-
-
-<small>Sources: US Overseas Loans & Grants [Greenbook], https://explorer.usaid.gov/reports.html</small>
+Definition of Constant Dollars: Value of gross obligations in constant 2014 $US. The official deflator for the U.S. Overseas Loans and Grantsdata is the "GDP Chain Price Index" deflator, produced annually by the Bureau of Economic Analysis (BEA), Department of Commerce from the National Income and Product Accounts data.</small>
