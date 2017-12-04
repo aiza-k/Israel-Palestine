@@ -91,9 +91,10 @@ model3
 #outliers:
 #there are outliers in the years 1974 and 1979
 
-#Summary + Model after removing values for outliers
 
+#-----------------------------------------------------
+#Next Steps
 
-#Try converting outliers to missing, then find max, min, median and model
-#check USmil aid and deaths in and around 2000-2005, 2008, and 2014
-#also check what, if anything, happened in outlier years to generate more aid?
+#check USmil aid and deaths in and around 2000-2005, 2008, and 2014?
+#from plot with outliers excluded, can see in 2000 and 2003, 
+#aid given is a billion dollars more than surroounding years - relation to 2nd intifada?

@@ -39,7 +39,7 @@ which.min(Israel_AidByYear$ConstantDollars)
 
 <br>
 
-The plot of Constant Dollars by Fiscal Year is positive, moderately strong and has some large outliers. Calculating the IQR allows us to find the outliers. which occur in 1974, 1976, and 1979. Applying a linear model to this data yields a slope of 39,410,000. This implies that for every 1 year increase in time, the predicted total military aid given to Israel by the US will increase by $39,410,000.
+The plot of Constant Dollars by Fiscal Year is positive, moderately strong and has some large outliers. Calculating the IQR allows us to find the outliers, which occur in 1974, 1976, and 1979. Applying a linear model to this data yields a slope of 39,410,000. This implies that for every 1 year increase in time, the predicted total military aid given to Israel by the US will increase by $39,410,000.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 plot(ConstantDollars ~ `Fiscal Year`, main = "Military Aid Given to Israel in Constant 2014 US Dollars, 1959-2015",Israel_AidByYear)
@@ -47,6 +47,10 @@ model <- lm(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear)
 abline(model, col = 'blue')
 model
 ```
+
+
+<br>
+Looking at historical events accounts for the ouliers in the 1970's. After the 1973 Arab-Israeli War (also called the Yom Kippur War) the US increased aid to help account for losses from the war. In 1975, The Sinai Interim Agreement was signed by Egypt and Israel. Following this peace agreement, the US increased aid given to Israel. The signing of the Egyptian-Israeli peace treaty in 1979 resulted in a normalization of relations between the two countries and involved Israel moving it's military bases in the Sinai to Israel. As part of the treaty, the US increases military aid to Israel, and also helps fund the builiding of new Israeli air bases. 
 
 <br>
 
@@ -74,6 +78,12 @@ plot(ConstantDollars ~ `Fiscal Year`, main = "Military Aid Given to Israel in Co
 
 
 <small>Sources: US Overseas Loans & Grants [Greenbook], https://explorer.usaid.gov/reports.html
+
+http://www.merip.org/mer/mer164-165/us-aid-israel 
+
+
+https://www.politico.com/story/2014/03/this-day-in-politics-egypt-israel-march-26-1979-105014 
+
 
 <br>
 <br>
