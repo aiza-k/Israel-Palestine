@@ -69,4 +69,4 @@ plot(bts, col= "red", main = "Deaths Among Groups Opposing Israel", ylab = "Deat
 
 #thanks to F.Begum for help with the code!
 
-#work more with time series...?
+#try analyzing data without agreggating by year. could look from month to month, season to season

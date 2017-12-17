@@ -77,6 +77,12 @@ plot(ConstantDollars ~ `Fiscal Year`, main = "Military Aid Given to Israel in Co
 ```
 
 
+<br>
+In the years 2000 and 2003, aid is over a billion dollars more than surrounding years. This is also around the time frame of the Second Intifada. 
+
+
+<br>
+
 <small>Sources: US Overseas Loans & Grants [Greenbook], https://explorer.usaid.gov/reports.html
 
 http://www.merip.org/mer/mer164-165/us-aid-israel 
