@@ -96,5 +96,3 @@ model3
 #Next Steps
 
 #check USmil aid and deaths in and around 2000-2005, 2008, and 2014?
-#from plot with outliers excluded, can see in 2000 and 2003, 
-#aid given is a billion dollars more than surroounding years - relation to 2nd intifada?
