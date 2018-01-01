@@ -1,0 +1,196 @@
+---
+title: "Untitled"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<big><b>Palestinian-Israeli Conflict Casualties From 1989 to 2016</b></big>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+#load data
+library(readr)
+GED <- read_csv("~/data/Israel_Palestine_deaths_aid_analysis/datasets/ged171.csv")
+```
+
+```{r, echo=FALSE}
+#create subset of data for just Israeli-Palestinian conflict
+IsPaliConflict <- GED[GED$conflict_name %in% 'Israel:Palestine',]
+
+#create new dataframe for year and deaths, aggregate by year
+deaths<-aggregate(IsPaliConflict[36:40], by=list(Category=IsPaliConflict$year), FUN=sum)
+```
+
+<br><b>Best Estimate of All Deaths</b> <br>
+The "best" number of deaths is the best estimate of fatalities in a given year. Given the data, overal the mean number of deaths a year is 225.82, with a maximum of 1679 deaths in 2014 and a minimum of 2 deaths in 1997.There are spikes in the number of deaths in three approximate time ranges - between 2000-2005, between 2008-2009, and in 2014. The Second Intifada took place in 2000-2005, the 3-week Gaza War occured in late 2008 and early 2009, and Israel launched Operation Protective Edge in 2014. Asides from these flare ups, it is hard to notice a general upwards or downwards trends in overall death rates during this time frame. <br><br>
+```{r, echo=FALSE}
+summary(deaths$best)
+bets <- ts(deaths$best, start = 1989, end = 2016, frequency = 1)
+plot(bets, col= "red", main = "Best Estimate of All Deaths", ylab = "Deaths")
+```
+
+
+<br><b>Civilian Deaths</b> <br>
+UCDP data does not differentiate between civilians in Israel or occupied territories. Therefore it is possible not all civilian deaths are Palestinian casualties. Given the data, overal the mean number of civilian deaths a year is 38.96, with a maximum of 304 deaths in 2014 and some years with no civilian deaths.The spikes in civilian death tolls can also be attributed to the Second Intifada, The Gaza War, and Operation Protective Edge. Outside these spikes, again it is hard to establish a change in trend. However, given the mean number of deaths, we will see that on average more civilians sustain casualities in a given year than the Government of Israel. <br><br>
+```{r, echo=FALSE}
+summary(deaths$deaths_civilians)
+cts <- ts(deaths$deaths_civilians, start = 1989, end = 2016, frequency = 1)
+plot(cts, col= "red", main = "Civilian Deaths", ylab = "Civilian Deaths")
+```
+
+
+<br><b>Government of Israel</b><br>
+The Goverment of Israel is described as side A in the UCDP dataset. Given the data, overal the mean number of deaths to side A is 14.32, with a maximum of 394 deaths in 2014 and some years with no deaths at all. The spikes in side A's death tolls are slightly different. Death rates in 2000-2005 and 2014 can still be attributed to the Second Intifada and Operation Protective Edge.However, there is little to no affect to the Goverment of Israel's casualties due to the the Gaza War. Outside these spikes, again it is hard to say deaths are changing in any kind of trend. In a given year, on average more civilians (mean 38.96) sustain casualities than the Government of Israel (mean 14.32). <br><br>
+```{r, echo=FALSE}
+table(IsPaliConflict$side_a)
+summary(deaths$deaths_a)
+ats <- ts(deaths$deaths_a, start = 1989, end = 2016, frequency = 1)
+plot(ats, col= "red", main = "Goverment of Israel Deaths", ylab = "Deaths")
+```
+
+
+
+<br><b>Groups Opposing Israel</b> <br>
+Various groups are listed as opposing Israel in a variety of incidents in the UCDP dataset. However, Hamas appears to most often be side B in any event. The overall mean number of deaths to side B (whichever group it is) is 95.43 in a given year, with a max of 407 in 2008 and a minimum of 1 death in 1997. The spikes in side B's death tolls are different than for other groups. Death rates in 2000-2005 and 2014 can still be attributed to the Second Intifada and Operation Protective Edge. However, after the Second Intifada death rates remain relatively high until the Gaza War. From this we can see the Gaza War hurt civilians and opposition groups much more strongly than the Government of Israel. 
+
+Outside these spikes, again it is hard to establish a general trend. <br><br>
+```{r, echo=FALSE}
+table(IsPaliConflict$side_b)
+summary(deaths$deaths_b)
+bts <- ts(deaths$deaths_b, start = 1989, end = 2016, frequency = 1)
+plot(bts, col= "red", main = "Deaths Among Groups Opposing Israel", ylab = "Deaths")
+```
+ 
+----------------------------------------------------------------------------------
+<big><b>US Military Aid to Israel from 1959 to 2015</big></b>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+#load data
+library(readr)
+TEaMA <- read_csv("~/data/Israel_Palestine_deaths_aid_analysis/datasets/TotalEconomicandMilitaryAssistance19462015.csv")
+
+#Create dataframe for only military aid
+MA <- TEaMA[ ! TEaMA$`Assistance Category` %in% 'Economic', ]
+
+#create dataframe for only aid given to Israel
+Israel <- MA[ MA$Country %in% 'Israel',]
+
+#aggregate aid by Year
+Israel_AidByYear<-aggregate(Israel[8:9], by=list('Fiscal Year'=Israel$'Fiscal Year'), FUN=sum)
+
+```
+
+<br><b>Military Aid in Constant Dollars by Fiscal Year</b> <br>
+
+The US Loans and Overseas Greenbook (from USAID) defines Constant Dollars as the "Value of gross obligations in constant 2014 US Dollars". Rather than analyzing the provided Historical Dollar values, we focus on Constant Dollars for consistency when looking at numbers across years. However, the analysis of the data for Historical Dollars reveals similar trends and the same years for maximum and mimimum aid amounts. 
+
+The minimum amount of military aid (at a constant dollar rate in 2014 dollars) given to Israel by the US was \$6227 in 1961. The maximum amount received was \$10,099,000,000 in 1979. The mean amount of military aid given to Israel in the years 1959 - 2015 was \$2,635,000,000.
+
+```{r, echo=FALSE}
+summary(Israel_AidByYear$ConstantDollars)
+which.max(Israel_AidByYear$ConstantDollars)
+which.min(Israel_AidByYear$ConstantDollars)
+```
+
+<br>
+
+The plot of Constant Dollars by Fiscal Year is positive, moderately strong and has some large outliers. Calculating the IQR allows us to find the outliers, which occur in 1974, 1976, and 1979. Applying a linear model to this data yields a slope of 39,410,000. This implies that for every 1 year increase in time, the predicted total military aid given to Israel by the US will increase by $39,410,000.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+plot(ConstantDollars ~ `Fiscal Year`, main = "Military Aid Given to Israel in Constant 2014 US Dollars, 1959-2015",Israel_AidByYear)
+model <- lm(ConstantDollars ~ `Fiscal Year`, Israel_AidByYear)
+abline(model, col = 'blue')
+model
+```
+
+
+<br>
+Looking at historical events accounts for the ouliers in the 1970's. After the 1973 Arab-Israeli War (also called the Yom Kippur War) the US increased aid to help account for losses from the war. In 1975, The Sinai Interim Agreement was signed by Egypt and Israel. Following this peace agreement, the US increased aid given to Israel. The signing of the Egyptian-Israeli peace treaty in 1979 resulted in a normalization of relations between the two countries and involved Israel moving it's military bases in the Sinai to Israel. As part of the treaty, the US increases military aid to Israel, and also helps fund the builiding of new Israeli air bases. 
+
+<br>
+
+If we remove the outlers, we see that the maximum amount of aid given has changed now to \$3,929,072,748 in 2003, while the minimum remains the same. A plot of the data reveals a curve that roughly takes an S-shape. The plot is weaker, but it is still positive, suggesting that Israel receives greater amounts of military aid as time progresses.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+Outliers <- Israel_AidByYear[Israel_AidByYear$ConstantDollars > 4e+09,] 
+View(Outliers)
+
+Israel_AidByYear_Outliers <- Israel_AidByYear
+#1974
+Israel_AidByYear_Outliers[15,2] = "NA"
+Israel_AidByYear_Outliers[15,3] = "NA"
+#1976
+Israel_AidByYear_Outliers[17,3] = "NA"
+#1979
+Israel_AidByYear_Outliers[20,2] = "NA"
+Israel_AidByYear_Outliers[20,3] = "NA"
+
+Israel_AidByYear_Outliers <-na.omit(Israel_AidByYear_Outliers)
+which.max(Israel_AidByYear_Outliers$ConstantDollars)
+which.min(Israel_AidByYear_Outliers$ConstantDollars)
+plot(ConstantDollars ~ `Fiscal Year`, main = "Military Aid Given to Israel in Constant 2014 US Dollars, 1959-2015", na.omit(Israel_AidByYear_Outliers))
+```
+
+
+<br>
+In the years 2000 and 2003, aid is over a billion dollars more than surrounding years. This is also around the time frame of the Second Intifada. 
+
+----------------------------------------------------------------------------------
+
+<big><b>Combined Analysis</big></b>
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+
+#Israel_AidByYear2 <- Israel_AidByYear
+#colnames(Israel_AidByYear2)[which(names(Israel_AidByYear2) == "Fiscal Year" )] <- "year"
+#aidVSdeaths <- merge(Israel_AidByYear2, deaths, by="year")
+
+#plot with separate Y axis
+#par(mar = c(5,5,2,5))
+#plot(best ~ year, aidVSdeaths, type = "l", col="red",
+  #           ylab="Deaths")
+#par(new = T)
+#with(aidVSdeaths, plot(year, ConstantDollars, type = "l", axes=F, col = "blue",
+ #                       xlab=NA, ylab=NA))
+#axis(side = 4)
+#mtext(side = 4, line = 3, "Aid")
+#legend("topleft",legend=c("Deaths", "Aid"), col=c("red", "blue"), lty=1:1)
+```
+
+Plotting the best estimate of all deaths in the conflict and the amount of military aid given to Israel (from the US) between 1989 and 2015 on the same graph, we see that there isn't a direct relationship between the two. An increase in aid does not always imply an increase in deaths, and the same for a decrease in aid. However, it is interesting to note the timing of certain spikes in the data. 
+
+In the year 2000, Israel receives a large amount of military aid (3.83 billion dollars) from the US as compared to years immediately preceding and following it. In the following two years, 2001 and 2002, we see large spikes in the best estimate of all deaths from the conflict. Is this unrelated to the increase in aid? Is the increase in aid tied to something that triggered the Second Intifada?
+
+The next spike in military aid occurs in 2003. Although deaths declined in 2003 as compared to 2002, in 2004 again the amount of deaths rises. And prior to the 2014 spike in deaths (because of Operation Protective Edge) there is a sustained increase in military aid for a few years that continues into 2014 and 2015. 
+
+----------------------------------------------------------------------------------
+
+<br><br><br>
+<small>Definiton of variables in USAID data set:<br>
+Publication Row:  Name of the row in the Greenbook publication
+
+Funding Agency:  U.S. Government Agency managing the Funding Account
+
+Funding Account Name:  U.S. Government Funding Account
+
+Definition of Historical Dollars: Value of gross obligations
+
+Definition of Constant Dollars: Value of gross obligations in constant 2014 $US. The official deflator for the U.S. Overseas Loans and Grantsdata is the "GDP Chain Price Index" deflator, produced annually by the Bureau of Economic Analysis (BEA), Department of Commerce from the National Income and Product Accounts data.</small>
+
+<br><br>
+
+<small>Sources: 
+Sundberg, Ralph, and Erik Melander, 2013, "Introducing the UCDP Georeferenced Event Dataset", Journal of Peace Research, vol.50, no.4, 523-532
+Croicu, Mihai and Ralph Sundberg, 2017, "UCDP GED Codebook version 17.1", Department of Peace and Conflict Research, Uppsala University
+
+UCDP data:http://ucdp.uu.se/downloads/#__utma=1.1048232624.1510607641.1510607641.1510613552.2&__utmb=1.2.10.1510613552&__utmc=1&__utmx=-&__utmz=1.1510607641.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)&__utmv=-&__utmk=15611958 
+
+US Overseas Loans & Grants [Greenbook], https://explorer.usaid.gov/reports.html
+
+http://www.merip.org/mer/mer164-165/us-aid-israel 
+
+https://www.politico.com/story/2014/03/this-day-in-politics-egypt-israel-march-26-1979-105014 </small>
