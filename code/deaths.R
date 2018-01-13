@@ -73,9 +73,10 @@ plot(deaths_b ~ Year, deaths, col="red", main = "Deaths to Sides Opposing Israel
 bts <- ts(deaths$deaths_b, start = 1989, end = 2016, frequency = 1)
 plot(bts, col= "red", main = "Deaths Among Groups Opposing Israel", ylab = "Deaths")
 
-
+#-----------------------------------------------------
+#-----------------------------------------------------
+#Deaths data without aggregating by year
+plot(best ~ date_start, IsPaliConflict, col="red", main = "Best Estimate of All Deaths in the 
+     Israeli-Palestinian Conflict", ylab= "Deaths")
 
 #thanks to F.Begum for help with the code!
-
-#try analyzing data without agreggating by year. could look from month to month, 
-#season to season
